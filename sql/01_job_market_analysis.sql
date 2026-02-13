@@ -10,19 +10,13 @@
 -- 1. JANUARY JOBS WITHOUT DEGREE REQUIREMENT
 -- ==========================================
 -- //////////////////////////////////////////
--- In the following query, I would like to extract everything from the table job_postings_fact but from only the month of January
--- extracting everything at the beginning helps me understand what data I am dealing with before explore deeper questions and perform deeper analysis.
--- Subquery ends here
--- =================================================================
--- ## Building a Clean CTE to Explore the Following:
--- 1) Jobs for the Month of January
--- 2) Also, Joining the Jobs to their Respective Companies 
--- 3) Finally, Filtering on jobs that don't require college degrees
--- =================================================================
--- I built a CTE here to extract the following: 
--- First, I limited the data by creating a temporary results set only for the month of January 
--- Then, I created a subquery to query the temporary result set I have created for the month of January only, this helps remove any extra data we don't need. 
--- After that, I wanted to know the list of companies that offer what job postings where no college degree is needed
+-- Business Question:
+-- Which companies posted jobs in January that do not require a college degree?
+--
+-- Approach:
+-- 1. Create a CTE limited to January postings.
+-- 2. Filter for roles without degree requirement.
+-- 3. Join to company_dim to retrieve company names.
 WITH january_jobs AS (
     SELECT job_id,
         company_id,
@@ -115,28 +109,6 @@ LIMIT 7;
 -- 3. COMPANIES HIRING MOST REMOTE ROLES
 -- =====================================
 -- /////////////////////////////////////
--- plan -
--- 1) companies 
--- 2) job_work_from_home 
--- 3) top 
--- 4) limit 
--- 5) 
--- strategize 
--- Grain Query 1
--- 1) from the "job_postings_fact" table 
--- a) select 
--- company id, 
--- job_work_from_home, 
--- salary_rate
--- Grain Query 2 off the CTE remote_roles_companies
--- 1) select from the above CTE remote_roles_companies
--- company_id, 
--- job_work_from_home, 
--- COUNT(job_work_from_home)
--- name AS company_name from company_dim
--- 2) JOIN job_postings_fact to company_dim ON company_i
--- 3) GROUP BY company_name
--- 4) ORDER BY company_name DESC
 WITH remote_jobs_companies AS (
     SELECT company_id,
         salary_rate
