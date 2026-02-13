@@ -65,18 +65,6 @@ ORDER BY cjc.total_jobs_count DESC;
 -- 2. TOP SKILLS FOR REMOTE DATA ANALYST ROLES
 -- ===========================================
 -- ///////////////////////////////////////////
--- Planning the next query
--- Table 1: job_postings_fact (columns I need from this table)
--- 1) job_work_from_home + count them + connect them to the skills id + group by skills
--- 2) job_id
--- 3) salary_rate
--- 4) job_short_title 
--- Table 2: skills_dim (columns I need from this table)
--- 1) skill_id 
--- 2) skills + order by top 5 skills DESC
--- 3) type 
--- Table 3: company_dim (columns I need from this table)
--- 1) name
 WITH remote_job_skills AS (
     SELECT skill_id,
         COUNT(*) AS skill_count
