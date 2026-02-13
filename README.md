@@ -7,7 +7,7 @@
 
 ---
 
-## 📌 Project Overview  
+## Project Overview  
 
 This project explores data-related job postings using SQL to identify:
 
@@ -17,7 +17,7 @@ This project explores data-related job postings using SQL to identify:
 - Salary patterns across remote roles  
 - Job title trends and categorization  
 
-The goal of this analysis was not just to retrieve data, but to understand the structure, grain, and business meaning behind each query.
+“The goal of this analysis was not only to retrieve data, but to understand the structure, grain, and business context behind each query.”
 
 Rather than simply writing queries for output, I approached this project as a structured exploration:
 1. Understand the dataset  
@@ -27,7 +27,7 @@ Rather than simply writing queries for output, I approached this project as a st
 
 ---
 
-## 🗂 Dataset Structure  
+## Dataset Structure  
 
 The project works with relational tables including:
 
@@ -46,16 +46,16 @@ These tables allow analysis across:
 
 ---
 
-## 🔎 Key Analysis Performed  
+## Key Analysis Performed  
 
-### 1️⃣ January Jobs Without Degree Requirement
+### 1. January Jobs Without Degree Requirement
 - Filtered job postings for January  
 - Identified companies offering roles with no degree requirement  
 - Used CTEs to isolate monthly data cleanly  
 
 ---
 
-### 2️⃣ Top Skills for Remote Data Analyst Roles
+### 2. Top Skills for Remote Data Analyst Roles
 - Filtered remote roles (`job_work_from_home = true`)  
 - Limited to “Data Analyst” positions  
 - Aggregated skill frequency  
@@ -63,7 +63,7 @@ These tables allow analysis across:
 
 ---
 
-### 3️⃣ Most In-Demand Skills in Remote Roles (with Average Salary)
+### 3. Most In-Demand Skills in Remote Roles (with Average Salary)
 - Joined remote jobs to skill mappings  
 - Calculated:
   - Skill frequency  
@@ -72,20 +72,20 @@ These tables allow analysis across:
 
 ---
 
-### 4️⃣ Companies Hiring the Most Remote Roles
+### 4. Companies Hiring the Most Remote Roles
 - Aggregated remote postings per company  
 - Ranked companies by remote hiring volume  
 - Demonstrated understanding of query grain and grouping logic  
 
 ---
 
-### 5️⃣ Remote Job Distribution
+### 5. Remote Job Distribution
 - Counted remote job postings per company  
 - Ranked top companies by remote hiring activity  
 
 ---
 
-### 6️⃣ Job Title Pattern Analysis
+### 6. Job Title Pattern Analysis
 - Used pattern matching (`LIKE`) to identify:
   - Analyst roles  
   - Data roles  
@@ -94,7 +94,7 @@ These tables allow analysis across:
 
 ---
 
-### 7️⃣ Location Categorization
+### 7. Location Categorization
 - Used `CASE` statements to classify:
   - Remote  
   - Local  
@@ -103,7 +103,7 @@ These tables allow analysis across:
 
 ---
 
-## 🧠 Technical Concepts Applied  
+## Technical Concepts Applied  
 
 - CTEs (Common Table Expressions)  
 - Aggregation and `GROUP BY`  
@@ -117,7 +117,7 @@ These tables allow analysis across:
 
 ---
 
-## 📈 What This Project Demonstrates  
+## What This Project Demonstrates  
 
 This project reflects:
 
@@ -131,7 +131,7 @@ Each query was built intentionally to explore a specific business question rathe
 
 ---
 
-## 🛠 Tools Used  
+## Tools Used  
 
 - SQL (PostgreSQL-style syntax)  
 - Relational database structure  
@@ -139,7 +139,7 @@ Each query was built intentionally to explore a specific business question rathe
 
 ---
 
-## 🚀 Future Improvements  
+## Future Improvements
 
 - Add window functions for ranking and advanced comparisons  
 - Introduce salary percentiles  
@@ -148,6 +148,6 @@ Each query was built intentionally to explore a specific business question rathe
 
 ---
 
-## 📬 Contact  
+## ✉️ Contact  
 
-If you would like to discuss this project or collaborate, feel free to connect.
+If you would like to discuss this project or collaborate, feel free to connect with me via LinkedIn, or Email.
