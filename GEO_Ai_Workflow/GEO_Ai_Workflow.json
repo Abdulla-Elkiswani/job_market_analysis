@@ -1,0 +1,297 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -240
+      ],
+      "id": "8073361b-9baa-48c3-9a5a-fce21ecaffb7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://www.chaos.com/about",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a7f0298b-e698-4590-869d-dc4bc08ad21a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "278c1029-586a-442e-8e66-bf7cb8c50cdd",
+              "name": "html",
+              "value": "={{$json.data}}",
+              "type": "string"
+            },
+            {
+              "id": "36e54572-3802-4607-a1a2-e55710559973",
+              "name": "executionCount",
+              "value": "={{$json.executionCount ? $json.executionCount + 1 : 1}}",
+              "type": "number"
+            },
+            {
+              "id": "257b979f-83ff-445c-a364-b4db02bacf3f",
+              "name": "lastFetchedHtml ",
+              "value": "={{$json.html}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        0
+      ],
+      "id": "8ce35271-09fe-4dbf-bf29-317ce6be766d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "availableInChat": true,
+        "agentName": "Chaos Website Assistant",
+        "agentDescription": "Answers questions using content from the Chaos website About page.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "3a01f5fd-7c0c-4793-8f24-9074e4443555",
+      "name": "When chat message received",
+      "webhookId": "ad46a602-fa62-4e50-a0d3-916a854cc205",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an assistant. Use the following website content to answer the user’s question:  {{ $json.cleanedHtml }}"
+            },
+            {
+              "type": "HumanMessagePromptTemplate",
+              "message": "={{ $json.cleanedHtml }}"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1264,
+        32
+      ],
+      "id": "dd37bb04-8520-406b-8390-8058731921dd",
+      "name": "Basic LLM Chain",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1648,
+        48
+      ],
+      "id": "12783559-86c3-4b36-bcb1-b2d66b013e2d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "YB5YchYnM1hMrkJ1",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const MAX_EXECUTIONS = 5;\n\nif ($json.executionCount <= MAX_EXECUTIONS) {\n  return items;\n} else {\n  return [];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "9bdb4eb4-1254-43a3-a3fc-9b1c0444c146",
+      "name": "IF Code Node in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = $json.html;\n\n// Remove script and style tags\nlet cleaned = html\n  .replace(/<script[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[\\s\\S]*?<\\/style>/gi, '');\n\n// Remove all HTML tags\ncleaned = cleaned.replace(/<[^>]+>/g, '');\n\n// Remove extra whitespace\ncleaned = cleaned.replace(/\\s+/g, ' ').trim();\n\nreturn [\n  {\n    json: {\n      text: cleaned\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        768,
+        0
+      ],
+      "id": "89f59f91-7196-47c6-88bd-7d4d7ec947bc",
+      "name": "Clean HTML Node Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fca3926e-aa25-487f-aab7-d00e8eb1793e",
+              "name": "cleanedHtml",
+              "value": "={{$json.text}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        976,
+        0
+      ],
+      "id": "bbdd3010-0f51-4b5a-92cb-3b4c3e7de028",
+      "name": "Clean HTML Node (Set)"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "IF Code Node in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Code Node in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Clean HTML Node Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean HTML Node Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Clean HTML Node (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean HTML Node (Set)": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "28d1db99-61d6-4b42-b075-25cc0e6ab10e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e20b78a9b455d20622d4edced5480348a71fd336795f7d0267d4e1b279c33292"
+  },
+  "id": "zICZJEtfpVPLwDgf",
+  "tags": []
+}
